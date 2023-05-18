@@ -26,26 +26,3 @@ output "controls_security" {
   value = data.aws_controltower_controls.Sandbox2.enabled_controls
 #  value = data.aws_controltower_controls.Sandbox2
 }
-
-variable "account_name" {
-  default = "hyun44"
-}
-
-resource "null_resource" "aws_cli_command" {
-  triggers = {
-    account_name = var.account_name
-  }
-
-  provisioner "local-exec" {
-    command = "aws organizations list-accounts --query 'Accounts[?Name==`${var.account_name}`].Id' --output text > account_id.txt"
-  }
-}
-
-data "local_file" "account_id" {
-  filename = "${path.module}/account_id.txt"
-  depends_on = [null_resource.aws_cli_command]
-}
-
-output "account_id" {
-  value = data.local_file.account_id.content
-}
