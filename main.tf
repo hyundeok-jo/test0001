@@ -9,6 +9,6 @@ data "aws_organizations_organizational_units" "ou" {
 }
 
 module "account" {
-  source = "./module/account"
+  source = "./module"
   name_to_find = "hyun22"
 }
